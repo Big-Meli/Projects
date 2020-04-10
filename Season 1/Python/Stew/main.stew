@@ -12,3 +12,5 @@ message "The Batman's identity is $batmanidentity"
 message "STEW >>"
 set string batmanspartner to log
 message "Batman's AKA $batmanidentity new partner is said to be $batmanspartner by an unknown source"
+
+//New Topic
