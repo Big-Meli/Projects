@@ -1,0 +1,14 @@
+//message "{value}"
+//set {datatype} {variablename} to {value}
+//set {datatype} {variablename} to log
+//wait {waittime}
+
+message "The one you are looking for is me"
+set string batmanidentity to Bruce Wayne
+message "The Batman's identity is $batmanidentity"
+
+//New Topic
+
+message "STEW >>"
+set string batmanspartner to log
+message "Batman's new parter is said to be $batmanspartner by an unknown source"
