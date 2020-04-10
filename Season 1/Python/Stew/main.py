@@ -17,13 +17,13 @@ class variable:
             if type == "boolean":
                 variable.value = bool(value)
 
-            elif type == "int":
+            elif type == "whole":
                 variable.value = int(value)
 
-            elif type == "float":
+            elif type == "decimal":
                 variable.value = float(value)
 
-            elif type == "string":
+            elif type == "text":
                 variable.value = str(value)
 
             else:
