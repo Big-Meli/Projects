@@ -1,16 +1,9 @@
-message "The one you are looking for is me"
-set string batmanidentity to Bruce Wayne
-message "The Batman's identity is $batmanidentity"
+@location hello {
+set string helloname to log;
+message "Hello $helloname have a nice day!";
+}
 
-//New Topic
-
-message "STEW >>"
-set string batmanspartner to log
-message "Batman's AKA $batmanidentity new partner is said to be $batmanspartner by an unknown source"
-
-//New Topic
-
-message "x10 MULTIPLIER"
-set int anynumber to log
-set int newanynumber to calculate anynumber * 10
-message "$anynumber multiplied by 10 is $newanynumber"
+@location goodbye {
+set string goodbyename to log;
+message "Goodbye $goodbyename have a nice day!";
+}

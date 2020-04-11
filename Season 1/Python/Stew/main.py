@@ -7,7 +7,7 @@ stew = file.read()
 file.close()
 
 stewLines = stew.split("\n")
-
+stewLinesRaw = stew
 
 class variable:
     def __init__(variable, name, value, type):
@@ -43,7 +43,74 @@ class step:
     def __init__(step, value, type):
         pass
 
+class locationClass:
+    def __init__(location, name, lines):
+        location.name = name
+        location.lines = lines
 
+class lineClass:
+    def __init__(line, value, type):
+        line.value = value
+        line.type = type
+        line.handled = False
+
+        if line.location() or line.loop():
+            line.ignore = True
+        else:
+            line.ignore = False
+
+    def location(line):
+        if line.type == "location":
+            return True
+
+    def loop(line):
+        if line.type == "loop":
+            return True
+
+    def message(line):
+        if line.type == "message":
+            return True
+
+    def set(line):
+        if line.type == "set":
+            return True
+
+locations = []
+
+lines = []
+for x in stewLines:
+    lines.append(lineClass(x, ""))
+
+for x in lines:
+    if x.value.startswith("@location"):
+        x.value = x.value.replace("{", "LOCATIONBREAK")
+    if x.value.startswith("}"):
+        x.value = x.value.replace("}","LOCATIONBREAK")
+
+linesx = []
+for x in lines:
+    if x.value.startswith(" "):
+        linesx.append(x.value[1:])
+    else:
+        linesx.append(x.value)
+
+linesy = "".join(linesx).split("LOCATIONBREAK")
+linesy.pop(-1)
+print(linesy)
+while len(linesy) > 0:
+    locations.append(locationClass(linesy[0].split(" ")[1], linesy[1]))
+    linesy.pop(0)
+    linesy.pop(0)
+
+for z in locations:
+    print("Location name: '{}', location lines: '{}'".format(z.name, z.lines))
+
+linesx = []
+for x in lines:
+    linesx.append(x.value)
+
+print("".join(linesx))
+"""
 variables = []
 currLine = 1
 
@@ -80,11 +147,11 @@ for eachLine in stewLines:
                 try:
                     if variableType == "boolean":
                         variableValue = bool(input(""))
-                    elif variableType == "int":
+                    elif variableType == "whole":
                         variableValue = int(input(""))
-                    elif variableType == "float":
+                    elif variableType == "decimal":
                         variableValue = float(input(""))
-                    elif variableType == "string":
+                    elif variableType == "text":
                         variableValue = str(input(""))
                 except ValueError:
                     print("STEW >> $ValueError >> Input: {} tried to parse: {} as: {}. Input: {} is not type: {}!".format(variableEachLine[2], variableValue, variableType, variableValue, variableType))
@@ -95,3 +162,4 @@ for eachLine in stewLines:
                 variables.append(variable(variableEachLine[2], variableValue[1:], variableEachLine[1]))
 
     currLine += 1
+"""
