@@ -16,10 +16,10 @@ configItems = [
     configItem(".loop", "loop"),
     configItem(".stop", "stop"),
     configItem(".location", "location"),
-    configItem(".string", "text"),
-    configItem(".int", "whole"),
-    configItem(".float", "decimal"),
-    configItem(".bool", "boolean"),
+    configItem(".string", "string"),
+    configItem(".int", "int"),
+    configItem(".float", "float"),
+    configItem(".bool", "bool"),
     configItem(".console", "STEW")
 ]
 
