@@ -1,9 +1,0 @@
-@location hello {
-set string helloname to log;
-message "Hello $helloname have a nice day!";
-}
-
-@location goodbye {
-set string goodbyename to log;
-message "Goodbye $goodbyename have a nice day!";
-}
