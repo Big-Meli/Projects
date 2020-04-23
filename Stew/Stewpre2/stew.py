@@ -22,7 +22,7 @@ configItems = [
     configItem(".float", "float"),
     configItem(".bool", "bool"),
     configItem(".console", "STEW"),
-    configItem(".mundaneAlerts", "No") # NEW ADD TO WIKI
+    configItem(".mundaneAlerts", "Yes") # NEW ADD TO WIKI
 ]
 
 def findConfig(name):
@@ -100,6 +100,9 @@ def compileConfig(filename = "main"):
 
 compileConfig()
 
+def embedCalculate(**kwargs):
+    pass
+
 def boilStew(filename):
     global variables
     global configItems
@@ -154,15 +157,64 @@ def boilStew(filename):
 
                     if findConfig(".mundaneAlerts") != "No":
                         print("{} >> {}{}:{} >> STEW has parsed a value: '{}' as a 'string' so that it can be put in keyword: '{}' placeholder for variable: '{}'!".format(
-                            findConfig(".console"), findConfig(".GenericError"), findConfig(".ValueError"), lineNumber, findConfig(".message"), var.name
+                            findConfig(".console"), findConfig(".GenericError"), findConfig(".ValueError"), lineNumber, var.value, findConfig(".message"), var.name
                         ))
 
                 print(messagePrefix + messageSuffix)
 
-            else:
-                print("{} >> {}{} >> Undefined or unrecognised keyword: '{}'!".format(
-                    findConfig(".console"), findConfig(".ExternalError"), findConfig(".SyntaxError"), rawLineArgs[0]
-                ))
+            if rawLineArgs[0] == findConfig(".set"):
+                blackListed = ["$", "%", '"', "!", "@", ">", "<"]
+
+                eachLineArgs = eachLine.split(' ')
+                acceptTypes = [
+                    findConfig(".string"),
+                    findConfig(".int"),
+                    findConfig(".float"),
+                    findConfig(".bool")
+                ]
+
+                if eachLineArgs[1] not in acceptTypes:
+                    print("{} >> {}{}:{} >> STEW tried to parse the variable on line: '{}' as type: '{}' but that type/alias does not exist!".format(
+                        findConfig(".console"), findConfig(".ExternalError"), findConfig(".ValueError"), lineNumber, eachLineArgs[1]
+                    ))
+                    quit()
+
+                else:
+                    if eachLineArgs[3] not in ["to", "as"]:
+                        print("""{} >> {}{}:{} >> There is/are no alias/es for '["to", "as"]'!""".format(
+                            findConfig(".console"), findConfig(".ExternalError"), findConfig(".SyntaxError"), lineNumber
+                        ))
+                        quit()
+
+                for eachChar in blackListed:
+                    if eachChar in eachLineArgs[2]:
+                        print("{} >> {}{}:{} >> Variable name: '{}' contains one more blacklisted characters, latest found was '{}'!".format(
+                            findConfig(".console"), findConfig(".ExternalError"), findConfig(".SyntaxError"), lineNumber, eachLineArgs[2], eachChar
+                        ))
+                        quit()
+                #print(eachLineArgs[2])
+                for var in variables:
+                    #rint(var.name == eachLineArgs[2], var.name, eachLineArgs[2], var.const)
+                    if var.name == eachLineArgs[2] and var.const == True:
+                        print("{} >> {}{}:{} >> variable: '{}' already exists as a 'constant' variable (see docs)!".format(
+                            findConfig(".console"), findConfig(".ExternalError"), findConfig(".SyntaxError"), lineNumber, var.name
+                        ))
+                        quit()
+
+                const = False
+
+                try:
+                    for i in range(len(eachLineArgs)):
+                        if eachLineArgs[i] == "const" and eachLineArgs[i-1] == "@with":
+                            const = True
+                except:
+                    print("{} >> {}{}:{} >> Stew went out of range, not enough arguments for keyword: '@with' with selector: 'const'!".format(
+                        findConfig(".console"), findConfig(".ExternalError"), findConfig(".SyntaxError")
+                    ))
+
+                if eachLineArgs[1] == findConfig(".string"):
+                    eachLineArgsString = eachLine.split('"')
+                    variables.append(variable(eachLineArgs[2], eachLineArgsString[1], eachLineArgs[1], const))
 
         lineNumber += 1
 
