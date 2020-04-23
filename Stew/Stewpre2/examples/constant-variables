@@ -1,0 +1,4 @@
+set text myname to "Shaun" @with const //Declares constant variable
+send "$_smhello $myname!$_sm" @from "D. Anderson says to you " //Says that variable using premade placeholders
+set text myname to "JippyCurls" //Tries to re-declare constant variable
+send "$myname" //Doesn't get this far, the above line returns an error
