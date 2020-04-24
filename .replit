@@ -1,0 +1,2 @@
+language = "python3"
+run = "python Stew\\Stewpre2\\stew.py"
